@@ -1,3 +1,4 @@
+'use client'
 import {
   MdBedroomParent,
   MdLiving,
@@ -11,8 +12,22 @@ import { GiHanger } from 'react-icons/gi'
 import { TiPlusOutline } from "react-icons/ti";
 
 import { NavMenu } from './NavMenu';
+import { signOut } from '@/lib/Firebase/auth';
+import { useRouter } from 'next/navigation';
+
+
+
+
 
 export function Header() {
+const route = useRouter()
+ async function handleLogout (){
+   await  signOut()
+   route.push("/login")
+
+  }
+
+  
   return (
     <header className="w-full h-12 flex  items-center border-b">
       <nav className="hidden md:flex mx-auto w-full max-w-6xl items-center justify-between">
@@ -113,12 +128,13 @@ export function Header() {
                  group-hover:w-full "
             />
           </li>
-          <li className="relative group hover:text-zinc-700 hover:text-xl">
-          <a href="/" className="flex items-center gap-2">
-              {' '}
+          <li
+           className="relative group hover:text-zinc-700 hover:text-xl">
+          
+              <button onClick={handleLogout} >
               <MdOutlineAttachMoney />
-              Gastos
-            </a>
+              Sair
+              </button>
             <div
               className="w-0 h-0.5 m-auto bg-pink-700
                 transition-all duration-500 ease-in-out

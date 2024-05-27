@@ -1,9 +1,9 @@
 // pages/api/auth/[...nextauth].ts
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { FirestoreAdapter } from "@next-auth/firebase-adapter";
-import { db, auth } from "@/lib/Firebase/firebase"; // Importe sua instância do Firestore e Auth
+import { db, auth } from "@/lib/Firebase/firebaseConfig"; // Importe sua instância do Firestore e Auth
 import { signInWithEmailAndPassword } from "firebase/auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -16,13 +16,13 @@ const options: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
 
-      async authorize(credentials) {
+      async authorize(credentials): Promise<User | null> {
         if (!credentials) return null;
         const { email, password } = credentials;
         try {
           const userCredential = await signInWithEmailAndPassword(auth, email, password);
           const user = userCredential.user;
-          return { id: user.uid, email: user.email };
+          return { id: user.uid, email: user.email, uid: user.uid };
         } catch (error) {
           console.error(error);
           return null;
@@ -47,7 +47,7 @@ const options: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token) {
-        session.user!.id = token.id;
+        session.user!.id = token.id as string;
       }
       return session;
     }

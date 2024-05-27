@@ -1,6 +1,6 @@
 
 import { collection, addDoc, deleteDoc, doc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from './firebase';
+import { db } from './firebaseConfig';
 
 
 type createDocumentProps = {

@@ -1,8 +1,10 @@
 'use client'
 // Import necessary dependencies
-import { useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { SetStateAction, useState } from "react";
+import { DragDropContext, Draggable, DropResult, Droppable } from "@hello-pangea/dnd";
 import { Button } from "@/components/ui/button";
+import useAuthentication from "@/context/hooks/userAutenticaton";
+import { useRouter } from "next/navigation";
 
 // Define the initial tasks and task status
 const tasks = [
@@ -34,7 +36,7 @@ const taskStatus = {
 };
 
 // Define the onDragEnd function, which handles the drag-and-drop functionality
-const onDragEnd = (result, columns, setColumns) => {
+const onDragEnd = (result: DropResult, columns: { [x: string]: any; importantAndUrgency?: { name: string; items: { id: string; content: string; url: string; price: string; }[]; }; importantAndNotUrgency?: { name: string; items: never[]; }; UrgencyAndNotImportant?: { name: string; items: never[]; }; NotImportantAndNotUrgency?: { name: string; items: never[]; }; }, setColumns: { (value: SetStateAction<{ importantAndUrgency: { name: string; items: { id: string; content: string; url: string; price: string; }[]; }; importantAndNotUrgency: { name: string; items: never[]; }; UrgencyAndNotImportant: { name: string; items: never[]; }; NotImportantAndNotUrgency: { name: string; items: never[]; }; }>): void; (arg0: any): void; }) => {
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -75,14 +77,13 @@ const onDragEnd = (result, columns, setColumns) => {
 
 // Define the App component, which renders the drag-and-drop interface
 export default function Rooms() {
+  const {isLoggedIn} = useAuthentication()
+  const router = useRouter ()
   const [columns, setColumns] = useState(taskStatus);
 
   function haldeChangeStatus (){
     const prices = columns.importantAndUrgency.items.map(i => i.price).reduce((sum, current) => sum + Number(current), 0)
-   
-
-    console.log(prices);
-    
+       
   }
   function formatSumAsBRL(price: number): string {
     // Calcular a soma dos valores em centavos
@@ -188,8 +189,13 @@ export default function Rooms() {
 
 
       <div className="w-full flex gap-4 justify-end items-center ">
-        <Button onClick={()=> haldeChangeStatus()}
-         className="bg-green-500" >Salvar alterações</Button>
+        {
+          isLoggedIn ?  <Button onClick={()=> haldeChangeStatus()}
+          className="bg-green-500 hover:bg-green-700" >Salvar alterações</Button> :
+          <Button onClick={()=> router.push("/login")}
+          className="w-full bg-red-700 hover:bg-red-900 " >Faça Login para cadastrar</Button>
+        }
+       
       </div>
     </div>
   );

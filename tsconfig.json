@@ -27,7 +27,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/lib/Firebase/Auth.ts",
-    "src/app/api/[...nextauth].ts"
+    "src/app/api/auth/[...nextauth].ts"
   ],
   "exclude": ["node_modules"]
 }

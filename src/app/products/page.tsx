@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/table'
 import { MdFilterList } from 'react-icons/md'
 import { TotalPrice } from '@/components/TotalPrice'
+import { useRouter } from 'next/navigation'
 
 const tasks = [
   {
@@ -83,8 +84,11 @@ export default function App() {
     }
   }
 
+  const router = useRouter();
+
+  
   return (
-    <section
+         <section
       className="w-full h-full  flex flex-col gap-5 items-center 
     lg:flex-row  lg:items-start  p-2"
     >
@@ -237,5 +241,6 @@ export default function App() {
         </TableBody>
       </Table>
     </section>
+ 
   )
 }

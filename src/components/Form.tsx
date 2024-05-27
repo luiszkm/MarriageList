@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useState } from 'react'
 
@@ -23,6 +23,8 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import useAuthentication from '@/context/hooks/userAutenticaton'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   productName: z.string().min(4, {
@@ -51,6 +53,8 @@ const formSchema = z.object({
 })
 
 export function ProfileForm() {
+  const {isLoggedIn} = useAuthentication()
+  const router = useRouter()
   const [price, setPrice] = useState("")
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -71,7 +75,7 @@ export function ProfileForm() {
     const formattedValue = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
-    }).format(numericValue / 100)
+    }).format(parseInt(numericValue, 10) / 100)
     setPrice(formattedValue)
   }
 
@@ -257,9 +261,22 @@ export function ProfileForm() {
               )}
             />
           </div>
-          <Button type="submit" className="w-full">
-            Cadastrar
-          </Button>
+       {
+        isLoggedIn ?
+        <Button 
+        disabled={!isLoggedIn}
+        type="submit" 
+        className="w-full disabled:cursor-not-allowed">
+          Cadastrar
+        </Button>:
+           <Button 
+          disabled={isLoggedIn}
+          onClick={()=> router.push("/login") }
+           type="button" 
+           className="w-full bg-red-700 hover:bg-red-900 disabled:cursor-not-allowed">
+             Faça Login para cadastrar
+           </Button>
+       }
         </fieldset>
       </form>
     </Form>
