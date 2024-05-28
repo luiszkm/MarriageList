@@ -36,10 +36,6 @@ if (isLoggedIn) {
     return (
       <div>
         <h1>Bem vindo {user?.displayName}</h1>
-        <p>Seu email é: {user?.email}</p>
-        <p>Seu ID é: {user?.uid}</p>
-        <img className='rounded-full'
-        src={user?.photoURL} alt="Imagem do usuário" />
       </div>
     )
 

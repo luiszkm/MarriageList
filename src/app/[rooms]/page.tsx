@@ -3,7 +3,7 @@
 import { SetStateAction, useState } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "@hello-pangea/dnd";
 import { Button } from "@/components/ui/button";
-import useAuthentication from "@/context/hooks/userAutenticaton";
+import useAuthentication from "@/hooks/userAutenticaton";
 import { useRouter } from "next/navigation";
 
 // Define the initial tasks and task status

@@ -23,7 +23,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import useAuthentication from '@/context/hooks/userAutenticaton'
+import useAuthentication from '@/hooks/userAutenticaton'
 import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
