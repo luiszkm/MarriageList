@@ -84,11 +84,10 @@ export default function App() {
     }
   }
 
-  const router = useRouter();
+  const router = useRouter()
 
-  
   return (
-         <section
+    <section
       className="w-full h-full  flex flex-col gap-5 items-center 
     lg:flex-row  lg:items-start  p-2"
     >
@@ -227,20 +226,21 @@ export default function App() {
           </TableRow>
           {tasks &&
             tasks.map(i => (
-              <TableRow>
-              <TableCell className="font-medium">{i.name}</TableCell>
-              <TableCell>sim</TableCell>
-              <TableCell className="max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
-                <a href={i.url} target="_blank" rel="noopener noreferrer">Clique aqui</a>
-              </TableCell>
-              <TableCell>Cozinha</TableCell>
-              <TableCell>n/a</TableCell>
-              <TableCell className="text-right">{i.price}</TableCell>
-            </TableRow>
+              <TableRow key={String(i)}>
+                <TableCell className="font-medium">{i.name}</TableCell>
+                <TableCell>sim</TableCell>
+                <TableCell className="max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
+                  <a href={i.url} target="_blank" rel="noopener noreferrer">
+                    Clique aqui
+                  </a>
+                </TableCell>
+                <TableCell>Cozinha</TableCell>
+                <TableCell>n/a</TableCell>
+                <TableCell className="text-right">{i.price}</TableCell>
+              </TableRow>
             ))}
         </TableBody>
       </Table>
     </section>
- 
   )
 }
