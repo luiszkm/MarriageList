@@ -104,8 +104,7 @@ export default function Rooms() {
   return (
     <div className="h-full flex flex-col gap-3 items-center w-full max-w-6xl mx-auto">
       <h1 className="font-bold text-center" >Lista de Casamento</h1>
-      <div
-        style={{ display: "flex", justifyContent: "center", height: "100%" }}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center h-full"
       >
         <DragDropContext
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
