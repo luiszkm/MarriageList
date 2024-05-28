@@ -10,6 +10,10 @@ export default function App (){
     <main>
       <h1>Bem vindo</h1>
       <UserProfile/>
+
+      <button className='w-5 h-5 rounded-full border flex items-center'>
+        <a href="/products"> + </a>
+      </button>
     </main>
   )
 }

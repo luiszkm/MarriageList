@@ -28,7 +28,7 @@ export default function RootLayout({
             className={`${inter.className} flex flex-col justify-between h-full items-center min-h-screen`}
           >
             <Header />
-            <main className="flex-grow h-full max-w-6xl w-full mx-auto">
+            <main className="flex-grow h-full relative max-w-6xl w-full mx-auto">
               {children}
             </main>
             <Footer />
