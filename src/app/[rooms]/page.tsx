@@ -11,41 +11,11 @@ import { Button } from '@/components/ui/button'
 import useAuthentication from '@/hooks/userAutenticaton'
 import { useRouter } from 'next/navigation'
 import { formatSumAsBRL } from '@/utils/fornatBRL'
+import productNModel from '@/../models.json'
+import { product } from '@/@types/products-types'
 
 // Define the initial tasks and task status
-const tasks = [
-  {
-    id: '1',
-    content: 'Geladeira',
-    url: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRi34tRi9AqT4G_EaxFWWsbXKCDR57KdDkynATBtH5EWmtHi9isVA_zleS8y-wvWQeIDj3Dos5MxXzau7U7oMK0H--T2KPD9ALWUxqGnTd-w31M-nVqYam6HYD2nB3bM73fZ2ScAOY&usqp=CAc',
-    price: '300000'
-  },
-  {
-    id: '2',
-    content: 'Sofá',
-    url: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTZLUUsuWsirgzlmRAtgrTllsbKIoFSLvu67NQqZXUVMJdvdzv8h7q5aOeKUhaCY1HunxuwKxhNPqDG3Prf7enVJybHN2ayW8gC5q9qSQoTnnlWbm9CTDg7FFJ9Vw&usqp=CAc',
-    price: '150000'
-  },
-  {
-    id: '3',
-    content: 'Fogão',
-    url: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSXeYMb53yL_HtpepRT4W9S1N9TGo_RLoxbAjEE-W-BUzRvfMEqT0wgMdvoTpel9zkswMvsXe-GOWEE2wG54QF0EFFsxU3PJtYwocRP_IWC_EDW5NNOD9ZKNPSzQtqFTLdE1xy9vPQ&usqp=CAc',
-    price: '118000'
-  },
-  {
-    id: '4',
-    content: 'Máquina de lavar',
-    url: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRrsW28BsfLSy2KTXMtbDDm0BBWZc7LWLyK7Fa9imgwkbhQ_2ZUeJEPBnBh1pRPpRMZDdsiN0zB_KCVuiIkVvdXguv5oEVDhXq8DzCvbB7i_stOqpBgTP61M_HPCVMgq-9wt8KCNA&usqp=CAc',
-    price: '190000'
-  },
-  {
-    id: '5',
-    content: 'Cama casal',
-    url: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSgmlMEb50bbYPmIz5hdCSRGwi08yWzs_QLjoPXD_2nl9ZvyLlKE6IykUFlibUIQgKEjTG8W5-drRBIWP2h7AhUR_G8_RFAOmZa1264DScYsnzxHoD6NS9iM0TO_THx90kUg1KniOOO9g&usqp=CAc',
-    price: '170000'
-  }
-]
-
+const tasks : product[] = productNModel
 const taskStatus = {
   importantAndUrgency: {
     name: 'Importante e urgente',
@@ -220,7 +190,7 @@ export default function Rooms() {
                                         alt=""
                                       />
                                     <div className=' flex flex-col'>
-                                    <span>{item.content}</span>
+                                    <span>{item.name}</span>
                                       <strong>
                                         {formatSumAsBRL(Number(item.price))}
                                       </strong>

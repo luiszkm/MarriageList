@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Geladeira",
+    "url": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRi34tRi9AqT4G_EaxFWWsbXKCDR57KdDkynATBtH5EWmtHi9isVA_zleS8y-wvWQeIDj3Dos5MxXzau7U7oMK0H--T2KPD9ALWUxqGnTd-w31M-nVqYam6HYD2nB3bM73fZ2ScAOY&usqp=CAc",
+    "price": "300000",
+    "category": "cozinha",
+    "important": "s",
+    "urgency": "s",
+    "isGift": "padrinho"
+  },
+  {
+    "id": "2",
+    "name": "Sofá",
+    "url": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTZLUUsuWsirgzlmRAtgrTllsbKIoFSLvu67NQqZXUVMJdvdzv8h7q5aOeKUhaCY1HunxuwKxhNPqDG3Prf7enVJybHN2ayW8gC5q9qSQoTnnlWbm9CTDg7FFJ9Vw&usqp=CAc",
+    "price": "150000",
+    "category": "sala",
+    "important": "s",
+    "urgency": "n",
+    "isGift": "n"
+  },
+  {
+    "id": "3",
+    "name": "Fogão",
+    "url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSXeYMb53yL_HtpepRT4W9S1N9TGo_RLoxbAjEE-W-BUzRvfMEqT0wgMdvoTpel9zkswMvsXe-GOWEE2wG54QF0EFFsxU3PJtYwocRP_IWC_EDW5NNOD9ZKNPSzQtqFTLdE1xy9vPQ&usqp=CAc",
+    "price": "118000",
+    "category": "cozinha",
+    "important": "n",
+    "urgency": "s",
+    "isGift": "n"
+  },
+  {
+    "id": "4",
+    "name": "Máquina de lavar",
+    "url": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRrsW28BsfLSy2KTXMtbDDm0BBWZc7LWLyK7Fa9imgwkbhQ_2ZUeJEPBnBh1pRPpRMZDdsiN0zB_KCVuiIkVvdXguv5oEVDhXq8DzCvbB7i_stOqpBgTP61M_HPCVMgq-9wt8KCNA&usqp=CAc",
+    "price": "190000",
+    "category": "outros",
+    "important": "n",
+    "urgency": "n",
+    "isGift": "primo"
+  },
+  {
+    "id": "5",
+    "name": "Cama casal",
+    "url": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSgmlMEb50bbYPmIz5hdCSRGwi08yWzs_QLjoPXD_2nl9ZvyLlKE6IykUFlibUIQgKEjTG8W5-drRBIWP2h7AhUR_G8_RFAOmZa1264DScYsnzxHoD6NS9iM0TO_THx90kUg1KniOOO9g&usqp=CAc",
+    "price": "170000",
+    "category": "quarto",
+    "important": "s",
+    "urgency": "n",
+    "isGift": "irmão"
+  }
+]

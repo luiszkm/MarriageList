@@ -24,68 +24,91 @@ import {
 import { MdFilterList } from 'react-icons/md'
 import { TotalPrice } from '@/components/TotalPrice'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { formatSumAsBRL } from '@/utils/fornatBRL'
+import productNModel from '@/../models.json'
+import { product } from '@/@types/products-types'
 
-const tasks = [
-  {
-    id: '1',
-    name: 'Geladeira',
-    url: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRi34tRi9AqT4G_EaxFWWsbXKCDR57KdDkynATBtH5EWmtHi9isVA_zleS8y-wvWQeIDj3Dos5MxXzau7U7oMK0H--T2KPD9ALWUxqGnTd-w31M-nVqYam6HYD2nB3bM73fZ2ScAOY&usqp=CAc',
-    price: '3000'
-  },
-  {
-    id: '2',
-    name: 'Sofá',
-    url: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTZLUUsuWsirgzlmRAtgrTllsbKIoFSLvu67NQqZXUVMJdvdzv8h7q5aOeKUhaCY1HunxuwKxhNPqDG3Prf7enVJybHN2ayW8gC5q9qSQoTnnlWbm9CTDg7FFJ9Vw&usqp=CAc',
-    price: '1500'
-  },
-  {
-    id: '3',
-    name: 'Fogão',
-    url: 'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSXeYMb53yL_HtpepRT4W9S1N9TGo_RLoxbAjEE-W-BUzRvfMEqT0wgMdvoTpel9zkswMvsXe-GOWEE2wG54QF0EFFsxU3PJtYwocRP_IWC_EDW5NNOD9ZKNPSzQtqFTLdE1xy9vPQ&usqp=CAc',
-    price: '1180'
-  },
-  {
-    id: '4',
-    name: 'Máquina de lavar',
-    url: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRrsW28BsfLSy2KTXMtbDDm0BBWZc7LWLyK7Fa9imgwkbhQ_2ZUeJEPBnBh1pRPpRMZDdsiN0zB_KCVuiIkVvdXguv5oEVDhXq8DzCvbB7i_stOqpBgTP61M_HPCVMgq-9wt8KCNA&usqp=CAc',
-    price: '1900'
-  },
-  {
-    id: '5',
-    name: 'Cama casal',
-    url: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSgmlMEb50bbYPmIz5hdCSRGwi08yWzs_QLjoPXD_2nl9ZvyLlKE6IykUFlibUIQgKEjTG8W5-drRBIWP2h7AhUR_G8_RFAOmZa1264DScYsnzxHoD6NS9iM0TO_THx90kUg1KniOOO9g&usqp=CAc',
-    price: '1700'
-  }
-]
+const tasks: product[] = productNModel
 
 export default function App() {
   const [positionPrice, setPositionPrice] = React.useState('all')
   const [positionGift, setPositionGift] = React.useState('all')
   const [positionStatus, setPositionStatus] = React.useState('all')
   const [positionCategory, setPositionCategory] = React.useState('all')
-  const [filter, setFilter] = React.useState()
+  const [filter, setFilter] = useState<product[]>(tasks)
+  const [total, seTotalPrice] = useState(0)
 
-  function handleSelectFilter(value: string, barFilter: string) {
+  function renderImportantAndUrgency(important: string, urgency: string) {
+    if (important === 's' && urgency === 's') return 'Importante e urgente'
+    if (important === 's' && urgency === 'n') return 'Importante'
+    if (important === 'n' && urgency === 's') return 'Urgente'
+    if (important === 'n' && urgency === 'n')
+      return 'Não Importante e Não urgente'
+  }
+
+  async function handleSelectFilter(value: string, barFilter: string) {
     setPositionGift('')
     setPositionStatus('')
     setPositionCategory('')
     setPositionPrice('')
+
+    let sortedTasks = tasks.slice() // Cria uma cópia do array tasks
+
     if (barFilter === 'price') {
       setPositionPrice(value)
-    }
-    if (barFilter === 'gift') {
+      if (value === 'max') {
+        sortedTasks.sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
+      }
+      if (value === 'min') {
+        sortedTasks.sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+      }
+      setFilter(sortedTasks)
+    } else if (barFilter === 'gift') {
       setPositionGift(value)
-    }
-    if (barFilter === 'status') {
+      if (value === 'max') {
+        sortedTasks.sort((a, b) => a.isGift.localeCompare(b.isGift))
+      }
+      if (value === 'min') {
+        sortedTasks.sort((a, b) => b.isGift.localeCompare(a.isGift))
+      }
+      setFilter(sortedTasks)
+    } else if (barFilter === 'status') {
       setPositionStatus(value)
-    }
-    if (barFilter === 'category') {
+      if (value === 'all') {
+        setFilter(tasks)
+      } else if (value === 'important') {
+        setFilter(tasks.filter(task => task.important === 's'))
+      } else if (value === 'urgency') {
+        setFilter(tasks.filter(task => task.urgency === 's'))
+      } else if (value === 'not')
+        setFilter(
+          tasks.filter(task => task.urgency === 'n' && task.important === 'n')
+        )
+    } else if (barFilter === 'category') {
       setPositionCategory(value)
+      if (value === 'all') {
+        setFilter(tasks)
+      } else {
+        setFilter(tasks.filter(task => task.category === value))
+      }
     }
   }
 
-  const router = useRouter()
+  function sumPrices(products: product[]): number {
+    return products.reduce(
+      (total, product) => total + parseFloat(product.price),
+      0
+    )
+  }
 
+  React.useEffect(() => {
+    const totalSum = filter.reduce(
+      (total, product) => total + parseFloat(product.price),
+      0
+    )
+    seTotalPrice( Number(totalSum))
+  }, [filter])
   return (
     <section
       className="w-full h-full  flex flex-col gap-5 items-center 
@@ -93,7 +116,7 @@ export default function App() {
     >
       <div className="flex-col items-center gap-8">
         <ProfileForm />
-        <TotalPrice />
+        <TotalPrice price={total}/> 
       </div>
       <Table className="">
         <TableCaption>A list of your recent invoices.</TableCaption>
@@ -119,11 +142,14 @@ export default function App() {
                     <DropdownMenuRadioItem value="all">
                       Todos
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="max">
-                      Maior para menor
+                    <DropdownMenuRadioItem value="important">
+                      Importante
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="min">
-                      Menor para maior
+                    <DropdownMenuRadioItem value="urgency">
+                      Urgente
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="not">
+                      Não urgente e não importante
                     </DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
@@ -147,11 +173,23 @@ export default function App() {
                     <DropdownMenuRadioItem value="all">
                       Todos
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="max">
-                      Maior para menor
+                    <DropdownMenuRadioItem value="cozinha">
+                      Cozinha
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="min">
-                      Menor para maior
+                    <DropdownMenuRadioItem value="quarto">
+                      Quarto
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="banheiro">
+                      Banheiro
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Enxoval">
+                      Enxoval
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="sala">
+                      Sala
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="outros">
+                      Outros
                     </DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
@@ -216,27 +254,23 @@ export default function App() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">Sofá</TableCell>
-            <TableCell>Importante</TableCell>
-            <TableCell>Link</TableCell>
-            <TableCell>Cozinha</TableCell>
-            <TableCell>Padrinhos</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-          </TableRow>
-          {tasks &&
-            tasks.map(i => (
+          {filter &&
+            filter.map(i => (
               <TableRow key={String(i)}>
                 <TableCell className="font-medium">{i.name}</TableCell>
-                <TableCell>sim</TableCell>
-                <TableCell className="max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
+                <TableCell>
                   <a href={i.url} target="_blank" rel="noopener noreferrer">
                     Clique aqui
                   </a>
                 </TableCell>
-                <TableCell>Cozinha</TableCell>
-                <TableCell>n/a</TableCell>
-                <TableCell className="text-right">{i.price}</TableCell>
+                <TableCell className="max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
+                  {renderImportantAndUrgency(i.important, i.urgency)}
+                </TableCell>
+                <TableCell>{i.category}</TableCell>
+                <TableCell>{i.isGift}</TableCell>
+                <TableCell className="text-right">
+                  {formatSumAsBRL(Number(i.price))}
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>

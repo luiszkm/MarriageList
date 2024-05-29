@@ -9,32 +9,26 @@ import {
   MdSoupKitchen
 } from 'react-icons/md'
 import { GiHanger } from 'react-icons/gi'
-import { TiPlusOutline } from "react-icons/ti";
+import { TiPlusOutline } from 'react-icons/ti'
 
-import { NavMenu } from './NavMenu';
-import { signOut } from '@/lib/Firebase/auth';
-import { useRouter } from 'next/navigation';
-
-
-
-
+import { NavMenu } from './NavMenu'
+import { signOut } from '@/lib/Firebase/auth'
+import { useRouter } from 'next/navigation'
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 
 export function Header() {
-const route = useRouter()
- async function handleLogout (){
-   await  signOut()
-   route.push("/login")
-
+  const route = useRouter()
+  async function handleLogout() {
+    await signOut()
+    route.push('/login')
   }
 
-  
   return (
     <header className="w-full h-12 flex  items-center border-b">
       <nav className="hidden md:flex mx-auto w-full max-w-6xl items-center justify-between">
-
         <ul className="flex gap-6 font-bold text-center cursor-pointer text-zinc-500 ">
-        <li className=" hover:text-zinc-700 hover:text-xlrelative group hover:text-zinc-700 hover:text-xl">
-          <a href="/all" className="flex items-center gap-2">
+          <li className=" hover:text-zinc-700 hover:text-xlrelative group hover:text-zinc-700 hover:text-xl">
+            <a href="/all" className="flex items-center gap-2">
               {' '}
               <MdOutlineHouse />
               Todos
@@ -57,7 +51,7 @@ const route = useRouter()
             />
           </li>
           <li className="relative group hover:text-zinc-700 hover:text-xl">
-          <a href="/kitchen" className="flex items-center gap-2">
+            <a href="/kitchen" className="flex items-center gap-2">
               {' '}
               <MdSoupKitchen />
               Cozinha
@@ -69,7 +63,7 @@ const route = useRouter()
             />
           </li>
           <li className="relative group hover:text-zinc-700 hover:text-xl">
-          <a href="/bathroom" className="flex items-center gap-2">
+            <a href="/bathroom" className="flex items-center gap-2">
               <MdShower />
               Banheiro
             </a>
@@ -80,7 +74,7 @@ const route = useRouter()
             />
           </li>
           <li className="relative group hover:text-zinc-700 hover:text-xl">
-          <a href="/trousseau" className="flex items-center gap-2">
+            <a href="/trousseau" className="flex items-center gap-2">
               <GiHanger />
               Enxoval
             </a>
@@ -91,7 +85,7 @@ const route = useRouter()
             />
           </li>
           <li className="relative group hover:text-zinc-700 hover:text-xl">
-          <a href="/bedroom" className="flex items-center gap-2">
+            <a href="/bedroom" className="flex items-center gap-2">
               <MdBedroomParent />
               Quarto
             </a>
@@ -102,7 +96,7 @@ const route = useRouter()
             />
           </li>
           <li className="relative group hover:text-zinc-700 hover:text-xl">
-          <a href="/others" className="flex items-center gap-2">
+            <a href="/others" className="flex items-center gap-2">
               {' '}
               <MdLocalLaundryService />
               Outros
@@ -115,39 +109,39 @@ const route = useRouter()
           </li>
         </ul>
         <div>
-          <ul className='flex items-center gap-2'>
-          <li className="relative group hover:text-zinc-700 hover:text-xl">
-          <a href="/products" className="flex items-center gap-2">
-              {' '}
-              <TiPlusOutline />
-              Cadastrar
-            </a>
-            <div
-              className="w-0 h-0.5 m-auto bg-pink-700
+          <ul className="flex items-center gap-2">
+            <li className="relative group hover:text-zinc-700 hover:text-xl">
+              <a href="/products" className="flex items-center gap-2">
+                {' '}
+                <TiPlusOutline />
+                Cadastrar
+              </a>
+              <div
+                className="w-0 h-0.5 m-auto bg-pink-700
                 transition-all duration-500 ease-in-out
                  group-hover:w-full "
-            />
-          </li>
-          <li
-           className="relative group hover:text-zinc-700 hover:text-xl">
-          
-              <button onClick={handleLogout} >
-              <MdOutlineAttachMoney />
-              Sair
+              />
+            </li>
+            <li className="relative group hover:text-zinc-700 hover:text-xl">
+              <button onClick={handleLogout}>
+                <Avatar>
+                  <AvatarImage className='w-10 h-10 rounded-full'
+                   src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                
               </button>
-            <div
-              className="w-0 h-0.5 m-auto bg-pink-700
+              <div
+                className="w-0 h-0.5 m-auto bg-pink-700
                 transition-all duration-500 ease-in-out
                  group-hover:w-full "
-            />
-          </li>
+              />
+            </li>
           </ul>
         </div>
       </nav>
 
-      <NavMenu/>
-
+      <NavMenu />
     </header>
- 
   )
 }
