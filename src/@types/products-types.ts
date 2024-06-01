@@ -10,6 +10,7 @@ export type product = {
 }
 
 
+
 type category  = {
   category: 'cozinha' | 'banheiro' | 'sala' | 'enxoval' | 'quarto' | 'outros'
 }

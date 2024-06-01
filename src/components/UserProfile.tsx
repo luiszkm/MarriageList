@@ -1,46 +1,78 @@
 // src/components/UserProfile.tsx
 'use client'
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { signInWithGoogle } from '@/lib/Firebase/auth';
-import { GoogleAuthProvider, User, getAuth, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
-import { useEffect, useState } from 'react';
-import { auth } from '../lib/Firebase/firebaseConfig'; 
+'use client'
 
-import { useRouter } from 'next/navigation';
+import * as React from 'react'
+import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu'
+import { CiLogin, CiUser } from "react-icons/ci";
 
-const UserProfile = () => {
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);  const [accessToken, setAccessToken] = useState(null);
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
+import { useRouter } from 'next/navigation'
+import useAuthentication from '@/hooks/userAutenticaton'
 
-const isLoggedIn = !!accessToken;
+type Checked = DropdownMenuCheckboxItemProps['checked']
 
-if (isLoggedIn) {
-  console.log("O usuário está logado!");
-} else {
-  console.log("O usuário não está logado.");
+type UserProfileProps = {
+  avatarUrl: string
 }
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
+export function UserProfile({ avatarUrl }: UserProfileProps) {
+  const router = useRouter()
+  const { signOutApp, isLoggedIn,user } = useAuthentication()
+  const name = user?.displayName.split(' ')[0]
+  async function handleLogout() {
+    await signOutApp()
+    router.push('/login')
+  }
 
-    // Limpar o listener quando o componente for desmontado
-    return () => unsubscribe();
-    
-  }, []);
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className="w-10 h-10 p-0 rounded-full" variant="outline">
+          <Avatar>
+            <AvatarImage
+              className="w-full h-full rounded-full"
+              src={avatarUrl}
+            />
 
-  console.log(user);
-  
-
-    return (
-      <div>
-        <h1>Bem vindo {user?.displayName}</h1>
-      </div>
-    )
-
- 
-
-};
-
-export default UserProfile;
+            <AvatarFallback>
+            <CiUser />
+            </AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>{
+          isLoggedIn ? `Bem Vindo ${name}` : 'Faça login para continuar'
+          }</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {/* <DropdownMenuCheckboxItem className='hover:cursor-pointer'>Status Bar</DropdownMenuCheckboxItem> */}
+        {isLoggedIn ? (
+          <DropdownMenuCheckboxItem
+            onClick={() => handleLogout()}
+            className="hover:cursor-pointer"
+          >
+            <CiLogin />
+            Sair
+          </DropdownMenuCheckboxItem>
+        ) : (
+          <DropdownMenuCheckboxItem
+            onClick={() => router.push('/login')}
+            className="hover:cursor-pointer"
+          >
+            Fazer Login
+          </DropdownMenuCheckboxItem>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}

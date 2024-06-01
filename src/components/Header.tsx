@@ -15,9 +15,13 @@ import { NavMenu } from './NavMenu'
 import { signOut } from '@/lib/Firebase/auth'
 import { useRouter } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
+import useAuthentication from '@/hooks/userAutenticaton'
+import { UserProfile } from './UserProfile'
 
 export function Header() {
   const route = useRouter()
+  const { user } = useAuthentication()
+
   async function handleLogout() {
     await signOut()
     route.push('/login')
@@ -123,14 +127,8 @@ export function Header() {
               />
             </li>
             <li className="relative group hover:text-zinc-700 hover:text-xl">
-              <button onClick={handleLogout}>
-                <Avatar>
-                  <AvatarImage className='w-10 h-10 rounded-full'
-                   src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                
-              </button>
+            <UserProfile
+        avatarUrl={user?.photoURL|| ""} />
               <div
                 className="w-0 h-0.5 m-auto bg-pink-700
                 transition-all duration-500 ease-in-out
@@ -139,6 +137,7 @@ export function Header() {
             </li>
           </ul>
         </div>
+    
       </nav>
 
       <NavMenu />

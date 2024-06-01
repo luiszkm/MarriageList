@@ -28,6 +28,7 @@ import { useState } from 'react'
 import { formatSumAsBRL } from '@/utils/fornatBRL'
 import productNModel from '@/../models.json'
 import { product } from '@/@types/products-types'
+import { TableMain } from '@/components/table'
 
 const tasks: product[] = productNModel
 
@@ -118,163 +119,11 @@ export default function App() {
         <ProfileForm />
         <TotalPrice price={total}/> 
       </div>
-      <Table className="">
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="">Produto </TableHead>
-            <TableHead className="">Link de compra </TableHead>
-            <TableHead className="">
-              Status{' '}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="p-0 border-none" variant="outline">
-                    <MdFilterList />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-32">
-                  <DropdownMenuLabel>Selecione seu filtro</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup
-                    value={positionStatus}
-                    onValueChange={e => handleSelectFilter(e, 'status')}
-                  >
-                    <DropdownMenuRadioItem value="all">
-                      Todos
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="important">
-                      Importante
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="urgency">
-                      Urgente
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="not">
-                      Não urgente e não importante
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableHead>
-            <TableHead className="">
-              Categoria{' '}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="p-0 border-none" variant="outline">
-                    <MdFilterList />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuLabel>Selecione seu filtro</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup
-                    value={positionCategory}
-                    onValueChange={e => handleSelectFilter(e, 'category')}
-                  >
-                    <DropdownMenuRadioItem value="all">
-                      Todos
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="cozinha">
-                      Cozinha
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="quarto">
-                      Quarto
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="banheiro">
-                      Banheiro
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="Enxoval">
-                      Enxoval
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="sala">
-                      Sala
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="outros">
-                      Outros
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableHead>
-            <TableHead className="">
-              Presente{' '}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="p-0 border-none" variant="outline">
-                    <MdFilterList />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuLabel>Selecione seu filtro</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup
-                    value={positionGift}
-                    onValueChange={e => handleSelectFilter(e, 'gift')}
-                  >
-                    <DropdownMenuRadioItem value="all">
-                      Todos
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="max">
-                      Maior para menor
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="min">
-                      Menor para maior
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableHead>
-            <TableHead className="text-right w-24">
-              Preço{' '}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="p-0 border-none" variant="outline">
-                    <MdFilterList />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuLabel>Selecione seu filtro</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup
-                    value={positionPrice}
-                    onValueChange={e => handleSelectFilter(e, 'price')}
-                  >
-                    <DropdownMenuRadioItem value="all">
-                      Todos
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="max">
-                      Maior para menor
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="min">
-                      Menor para maior
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filter &&
-            filter.map(i => (
-              <TableRow key={String(i)}>
-                <TableCell className="font-medium">{i.name}</TableCell>
-                <TableCell>
-                  <a href={i.url} target="_blank" rel="noopener noreferrer">
-                    Clique aqui
-                  </a>
-                </TableCell>
-                <TableCell className="max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
-                  {renderImportantAndUrgency(i.important, i.urgency)}
-                </TableCell>
-                <TableCell>{i.category}</TableCell>
-                <TableCell>{i.isGift}</TableCell>
-                <TableCell className="text-right">
-                  {formatSumAsBRL(Number(i.price))}
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
+      <TableMain 
+      className='sm:max-w-6xl'
+      tasks={tasks} 
+      
+      />  
     </section>
   )
 }

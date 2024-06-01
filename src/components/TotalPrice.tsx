@@ -2,6 +2,7 @@ import { formatSumAsBRL } from "@/utils/fornatBRL";
 
 type totalPrice ={
   price: number
+  
 }
 
 
